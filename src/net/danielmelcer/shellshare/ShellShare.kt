@@ -3,6 +3,8 @@
 package net.danielmelcer.shellshare
 
 import java.awt.*
+import java.io.BufferedWriter
+import java.io.OutputStreamWriter
 
 
 fun main(args: Array<String>) {
@@ -13,7 +15,10 @@ fun main(args: Array<String>) {
     while(true){
         val capture = Rectangle(Toolkit.getDefaultToolkit().screenSize)
         val im = r.createScreenCapture(capture)
-        print(imageToShell(im, Dimension(185, 52)))
+        val bw : BufferedWriter = BufferedWriter(OutputStreamWriter(System.out), 10000000)
+        val imstr = imageToShell(im, Dimension(477, 118))
+        bw.write(imstr)
+        bw.flush()
     }
 }
 
