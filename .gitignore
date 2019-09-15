@@ -1,7 +1,5 @@
 .gradle
 .idea
-build
-!build/libs
 gradle
 out
 gradlew
