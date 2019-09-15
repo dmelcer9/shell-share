@@ -3,6 +3,7 @@ package net.danielmelcer.shellshare
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Graphics2D
+import java.awt.Point
 import java.awt.image.BufferedImage
 import kotlin.math.abs
 
@@ -29,6 +30,19 @@ fun imageToShell(im: BufferedImage, d: Dimension): String {
     return sb.toString()
 }
 
+var corner = Point(0,0)
+var scaleFactorX = 1.0
+var scaleFactorY = 1.0
+
+fun getMouseClickCoordinate(x:Int, y:Int):Point{
+    val doubleY = y*2 // Double high characters
+    val relX = x- corner.x
+    val relY = doubleY - corner.y
+    val scaledX = relX * scaleFactorX
+    val scaledY = relY * scaleFactorY
+    return Point(scaledX.toInt(), scaledY.toInt())
+}
+
 fun resizeImageWithAspectRatio(im: BufferedImage, d: Dimension): BufferedImage {
     val sourceAspectRatio = im.width.toDouble() / im.height;
     val destAspectRatio = d.getWidth() / d.getHeight();
@@ -45,15 +59,20 @@ fun resizeImageWithAspectRatio(im: BufferedImage, d: Dimension): BufferedImage {
             // Solid bars on top and bottom
             val subregionHeight = dest.width / sourceAspectRatio;
             val amountOnTop = (dest.height - subregionHeight) / 2
+            corner = Point(0, amountOnTop.toInt())
             dest.getSubimage(0, amountOnTop.toInt(), dest.width, subregionHeight.toInt())
         }
         else -> {
             // Solid bars on left and right
             val subregionWidth = dest.height * sourceAspectRatio;
             val amountOnLeft = (dest.width - subregionWidth) / 2
+            corner = Point(amountOnLeft.toInt(), 0)
             dest.getSubimage(amountOnLeft.toInt(), 0, subregionWidth.toInt(), dest.height)
         }
     }
+
+    scaleFactorX = im.width.toDouble() / dest.width
+    scaleFactorY = im.height.toDouble() / dest.height
 
     resizeImage(im, destimageSubRegion)
     return dest;

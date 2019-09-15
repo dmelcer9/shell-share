@@ -1,6 +1,7 @@
 package net.danielmelcer.shellshare
 
 import java.awt.Color
+import java.awt.event.KeyEvent
 import java.io.Reader
 import java.util.*
 
@@ -8,6 +9,10 @@ class ANSIReader(val reader:Scanner){
 
     private val windowSizeCallbacks:MutableList<(ANSIWindowSizeResp)->Unit> = LinkedList();
     private val keyPressCallbacks:MutableList<(Char)->Unit> = LinkedList();
+    private val keyCodeCallbacks:MutableList<(Int)->Unit> = LinkedList();
+    private val mouseCallbacks:MutableList<(ANSIMouseClick)->Unit> = LinkedList();
+
+    private var soFar:String = "";
 
     public fun addWindowSizeCallback(cb:(ANSIWindowSizeResp)->Unit){
         windowSizeCallbacks.add(cb)
@@ -16,6 +21,15 @@ class ANSIReader(val reader:Scanner){
     public fun addKeyPressCallback(cb:(Char)->Unit){
         keyPressCallbacks.add(cb)
     }
+
+    fun addKeyCodeCallback(cb:(Int)->Unit){
+        keyCodeCallbacks.add(cb);
+    }
+
+    fun addMouseCallback(cb:(ANSIMouseClick)->Unit){
+        mouseCallbacks.add(cb)
+    }
+
 
     private fun next():Char{
         return reader.next()[0];
@@ -38,31 +52,57 @@ class ANSIReader(val reader:Scanner){
         reader.useDelimiter("");
 
         while(true){
+
             val a = next()
 
             if(a == '\u001B'){
                 val b = next()
                 if(b == '['){
-                    if(reader.hasNextInt()){
+                    if(reader.hasNextInt()) {
                         val n = nextInt();
                         val c = next();
-                        if(c == ';'){
-                            if(reader.hasNextInt()){
+                        if (c == ';') {
+                            if (reader.hasNextInt()) {
                                 val m = nextInt()
                                 val d = next();
-                                if(d == 'R'){
+                                if (d == 'R') {
                                     callAll(windowSizeCallbacks, ANSIWindowSizeResp(n, m))
+                                    continue;
                                 }
+                            }
+                        }
+                    } else {
+                        val c = next();
+                        when (c) {
+                            'A' -> callAll(keyCodeCallbacks, KeyEvent.VK_UP)
+                            'B' -> callAll(keyCodeCallbacks, KeyEvent.VK_DOWN)
+                            'C' -> callAll(keyCodeCallbacks, KeyEvent.VK_LEFT)
+                            'D' -> callAll(keyCodeCallbacks, KeyEvent.VK_RIGHT)
+                            'M' -> {
+                                val modifiers = next().toInt()
+                                val x = next().toInt() - 41
+                                val y = next().toInt() - 41
+                                callAll(mouseCallbacks, ANSIMouseClick(modifiers, x, y))
                             }
                         }
                     }
                 }
             } else{
                 callAll(keyPressCallbacks, a)
+                continue;
             }
+
         }
     }
 }
+
+class ANSIMouseEnable(): ANSI(){
+    override fun toString(): String {
+        return "$CSI?1000h"
+    }
+}
+
+class ANSIMouseClick(val modifier:Int, val x:Int, val y:Int): ANSI()
 
 class ANSISetFG(val c:Color): ANSI(){
     override fun toString(): String {

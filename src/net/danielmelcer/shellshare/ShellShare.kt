@@ -3,6 +3,7 @@
 package net.danielmelcer.shellshare
 
 import java.awt.*
+import java.awt.event.InputEvent
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.util.*
@@ -12,11 +13,14 @@ import javax.swing.KeyStroke
 
 var screenDim = Dimension(100,100)
 
+
 fun main(args: Array<String>) {
     //val serverSocket : ServerSocket = ServerSocket(8000);
     val r = Robot()
     //println("Hello")
         //val socket: Socket = serverSocket.accept();
+
+    println(ANSIMouseEnable())
 
     val scanner: Scanner = Scanner(System.`in`)
     val ansiParser = ANSIReader(scanner)
@@ -42,6 +46,32 @@ fun main(args: Array<String>) {
             r.keyPress(ks)
             r.keyRelease(ks)
         }
+    }
+
+    ansiParser.addKeyCodeCallback { kc ->
+        r.keyPress(kc)
+        r.keyRelease(kc)
+    }
+
+    ansiParser.addMouseCallback { cb ->
+        val buttons = (cb.modifier and 0x04)
+
+        val buttonPressed = when(buttons){
+            0 -> InputEvent.BUTTON1_DOWN_MASK
+            1 -> InputEvent.BUTTON2_DOWN_MASK
+            2 -> InputEvent.BUTTON3_DOWN_MASK
+            else -> (InputEvent.BUTTON1_DOWN_MASK or InputEvent.BUTTON2_DOWN_MASK or InputEvent.BUTTON3_DOWN_MASK)
+        }
+
+        val point = getMouseClickCoordinate(cb.x, cb.y)
+        r.mouseMove(point.x, point.y)
+
+        if(buttonPressed != 3){
+            r.mousePress(buttonPressed)
+        } else{
+            r.mouseRelease(buttonPressed)
+        }
+
     }
 
     val t = Thread {
