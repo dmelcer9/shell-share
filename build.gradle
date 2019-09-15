@@ -19,12 +19,24 @@ sourceSets {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': "net.danielmelcer.shellshare.ShellShare"
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
 
 repositories {
     mavenCentral()
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 compileKotlin {
     kotlinOptions {

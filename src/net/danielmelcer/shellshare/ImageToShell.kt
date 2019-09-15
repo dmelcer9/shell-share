@@ -17,8 +17,8 @@ fun imageToShell(im: BufferedImage, d: Dimension): String {
         val yUpper = y * 2
         val yLower = yUpper + 1
 
+        sb.append(ANSIGoTo(0, y))
         for (x in 0 until d.width) {
-            sb.append(ANSIGoTo(x, y))
             sb.append(ANSIBiColor(resizedImage.getRGB(x, yUpper), resizedImage.getRGB(x, yLower)))
         }
     }
