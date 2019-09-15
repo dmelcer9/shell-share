@@ -41,7 +41,7 @@ fun getMouseClickCoordinate(x: Int, y: Int): Point {
     val relY = doubleY - corner.y
     val scaledX = relX * scaleFactorX
     val scaledY = relY * scaleFactorY
-    JOptionPane.showMessageDialog(null, "corner:$corner, x:$x,${relX.toInt()}, y:$y,  ${relY.toInt()}");
+    JOptionPane.showMessageDialog(null, "corner:$corner, x:$x,${relX.toInt()}, ${scaledX.toInt()}, y:$y,  ${relY.toInt()}, ${scaledY.toInt()}");
     return Point(scaledX.toInt(), scaledY.toInt())
 }
 

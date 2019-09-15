@@ -80,8 +80,8 @@ class ANSIReader(val reader:Scanner){
                             'D' -> callAll(keyCodeCallbacks, KeyEvent.VK_RIGHT)
                             'M' -> {
                                 val modifiers = next().toInt()
-                                val x = next().toInt() - 33
-                                val y = next().toInt() - 33
+                                val x = next().toInt() - 32
+                                val y = next().toInt() - 32
                                 callAll(mouseCallbacks, ANSIMouseClick(modifiers, x, y))
                             }
                         }
