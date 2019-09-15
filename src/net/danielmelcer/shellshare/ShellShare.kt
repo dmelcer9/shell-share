@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
 
     ansiParser.addKeyPressCallback { ch ->
 
-        if(Character.isAlphabetic(ch.toInt())){
+        if(Character.isLetterOrDigit(ch) || Character.isWhitespace(ch)){
             if (Character.isUpperCase(ch)) {
                 r.keyPress(KeyEvent.VK_SHIFT)
             }
@@ -37,10 +37,10 @@ fun main(args: Array<String>) {
                 r.keyRelease(KeyEvent.VK_SHIFT)
             }
         } else {
-            val ks = KeyStroke.getKeyStroke(ch);
+            val ks = KeyEvent.getExtendedKeyCodeForChar(ch.toInt());
 
-            r.keyPress(ks.keyCode)
-            r.keyRelease(ks.keyCode)
+            r.keyPress(ks)
+            r.keyRelease(ks)
         }
     }
 
