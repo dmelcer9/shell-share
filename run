@@ -3,5 +3,7 @@
 stty_save=$(stty -g)
 stty cbreak
 stty -echo
-java -jar ./build/libs/ShellShare.jar
+unset DISPLAY
+export DISPLAY=:10
+java -jar ./build/libs/ShellShare.jar 
 stty $stty_save
