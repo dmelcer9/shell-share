@@ -64,11 +64,14 @@ fun main(args: Array<String>) {
         }
 
         val point = getMouseClickCoordinate(cb.x, cb.y)
-        r.mouseMove(point.x, point.y)
+        if(point.x < 255 && point.y < 255){
 
-        if(buttonPressed != 3){
-            r.mousePress(buttonPressed)
-            r.mouseRelease(buttonPressed)
+            r.mouseMove(point.x, point.y)
+
+            if(buttonPressed != 3){
+                r.mousePress(buttonPressed)
+                r.mouseRelease(buttonPressed)
+            }
         }
 
 
