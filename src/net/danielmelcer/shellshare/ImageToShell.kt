@@ -5,6 +5,7 @@ import java.awt.Dimension
 import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.image.BufferedImage
+import javax.swing.JOptionPane
 import kotlin.math.abs
 
 fun imageToShell(im: BufferedImage, d: Dimension): String {
@@ -40,6 +41,7 @@ fun getMouseClickCoordinate(x:Int, y:Int):Point{
     val relY = doubleY - corner.y
     val scaledX = relX * scaleFactorX
     val scaledY = relY * scaleFactorY
+    JOptionPane.showMessageDialog(null, "corner:$corner, scalex:${scaleFactorX},$scaledX, scaley:$scaleFactorY, $scaledY");
     return Point(scaledX.toInt(), scaledY.toInt())
 }
 

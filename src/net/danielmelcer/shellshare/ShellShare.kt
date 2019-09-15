@@ -68,9 +68,9 @@ fun main(args: Array<String>) {
 
         if(buttonPressed != 3){
             r.mousePress(buttonPressed)
-        } else{
             r.mouseRelease(buttonPressed)
         }
+
 
     }
 
