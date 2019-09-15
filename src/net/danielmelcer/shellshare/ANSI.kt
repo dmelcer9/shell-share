@@ -7,9 +7,14 @@ import java.util.*
 class ANSIReader(val reader:Scanner){
 
     private val windowSizeCallbacks:MutableList<(ANSIWindowSizeResp)->Unit> = LinkedList();
+    private val keyPressCallbacks:MutableList<(Char)->Unit> = LinkedList();
 
     public fun addWindowSizeCallback(cb:(ANSIWindowSizeResp)->Unit){
         windowSizeCallbacks.add(cb)
+    }
+
+    public fun addKeyPressCallback(cb:(Char)->Unit){
+        keyPressCallbacks.add(cb)
     }
 
     private fun next():Char{
@@ -52,6 +57,8 @@ class ANSIReader(val reader:Scanner){
                         }
                     }
                 }
+            } else{
+                callAll(keyPressCallbacks, a)
             }
         }
     }

@@ -21,6 +21,11 @@ fun main(args: Array<String>) {
         screenDim = Dimension(cb.cols, cb.rows)
     }
 
+    ansiParser.addKeyPressCallback { ch ->
+        r.keyPress(ch.toInt())
+        r.keyRelease(ch.toInt())
+    }
+
     val t = Thread {
         ansiParser.startParsing()
     }
@@ -37,7 +42,7 @@ fun main(args: Array<String>) {
 
         bw.write(ANSIWindowSizeQuery().toString())
         bw.flush()
-        Thread.sleep(1000)
+        //Thread.sleep(1000)
     }
 }
 
