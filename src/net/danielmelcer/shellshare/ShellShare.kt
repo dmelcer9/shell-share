@@ -90,7 +90,7 @@ fun main(args: Array<String>) {
 
         bw.write(ANSIWindowSizeQuery().toString())
         bw.flush()
-        //Thread.sleep(1000)
+        Thread.sleep(250)
     }
 }
 
