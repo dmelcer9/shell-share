@@ -7,7 +7,7 @@ import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.util.*
 import java.awt.event.KeyEvent
-
+import javax.swing.KeyStroke
 
 
 var screenDim = Dimension(100,100)
@@ -37,8 +37,10 @@ fun main(args: Array<String>) {
                 r.keyRelease(KeyEvent.VK_SHIFT)
             }
         } else {
-            r.keyPress(ch.toInt())
-            r.keyRelease(ch.toInt())
+            val ks = KeyStroke.getKeyStroke(ch);
+
+            r.keyPress(ks.keyCode)
+            r.keyRelease(ks.keyCode)
         }
     }
 
