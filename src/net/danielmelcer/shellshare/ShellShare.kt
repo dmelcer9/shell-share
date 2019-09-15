@@ -6,6 +6,9 @@ import java.awt.*
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.util.*
+import java.awt.event.KeyEvent
+
+
 
 var screenDim = Dimension(100,100)
 
@@ -22,8 +25,21 @@ fun main(args: Array<String>) {
     }
 
     ansiParser.addKeyPressCallback { ch ->
-        r.keyPress(ch.toInt())
-        r.keyRelease(ch.toInt())
+
+        if(Character.isAlphabetic(ch.toInt())){
+            if (Character.isUpperCase(ch)) {
+                r.keyPress(KeyEvent.VK_SHIFT)
+            }
+            r.keyPress(Character.toUpperCase(ch).toInt())
+            r.keyRelease(Character.toUpperCase(ch).toInt())
+
+            if (Character.isUpperCase(ch)) {
+                r.keyRelease(KeyEvent.VK_SHIFT)
+            }
+        } else {
+            r.keyPress(ch.toInt())
+            r.keyRelease(ch.toInt())
+        }
     }
 
     val t = Thread {
