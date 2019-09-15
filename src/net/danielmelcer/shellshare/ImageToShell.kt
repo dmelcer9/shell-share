@@ -31,17 +31,17 @@ fun imageToShell(im: BufferedImage, d: Dimension): String {
     return sb.toString()
 }
 
-var corner = Point(0,0)
+var corner = Point(0, 0)
 var scaleFactorX = 1.0
 var scaleFactorY = 1.0
 
-fun getMouseClickCoordinate(x:Int, y:Int):Point{
-    val doubleY = y*2 // Double high characters
+fun getMouseClickCoordinate(x: Int, y: Int): Point {
+    val doubleY = y * 2 // Double high characters
     val scaledX = x * scaleFactorX
     val scaledY = doubleY * scaleFactorY
-    val relX = scaledX- corner.x
+    val relX = scaledX - corner.x
     val relY = scaledY - corner.y
-    JOptionPane.showMessageDialog(null, "corner:$corner, x:${scaleFactorX},$relX, y:$scaleFactorY, $relY");
+    JOptionPane.showMessageDialog(null, "corner:$corner, x:$x,${relX.toInt()}, y:$y,  ${relY.toInt()}");
     return Point(relX.toInt(), relY.toInt())
 }
 
