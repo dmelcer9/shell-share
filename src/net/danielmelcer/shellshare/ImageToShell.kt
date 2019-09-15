@@ -37,12 +37,12 @@ var scaleFactorY = 1.0
 
 fun getMouseClickCoordinate(x: Int, y: Int): Point {
     val doubleY = y * 2 // Double high characters
-    val scaledX = x * scaleFactorX
-    val scaledY = doubleY * scaleFactorY
-    val relX = scaledX - corner.x
-    val relY = scaledY - corner.y
+    val relX = x - corner.x
+    val relY = doubleY - corner.y
+    val scaledX = relX * scaleFactorX
+    val scaledY = relY * scaleFactorY
     JOptionPane.showMessageDialog(null, "corner:$corner, x:$x,${relX.toInt()}, y:$y,  ${relY.toInt()}");
-    return Point(relX.toInt(), relY.toInt())
+    return Point(scaledX.toInt(), scaledY.toInt())
 }
 
 fun resizeImageWithAspectRatio(im: BufferedImage, d: Dimension): BufferedImage {
