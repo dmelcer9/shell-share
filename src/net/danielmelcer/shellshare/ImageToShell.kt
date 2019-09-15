@@ -23,6 +23,9 @@ fun imageToShell(im: BufferedImage, d: Dimension): String {
         }
     }
 
+    sb.append(ANSISetBG(Color.BLACK))
+    sb.append(ANSISetBG(Color.WHITE))
+
     return sb.toString()
 }
 
