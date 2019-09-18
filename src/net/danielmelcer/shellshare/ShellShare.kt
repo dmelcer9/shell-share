@@ -64,7 +64,7 @@ fun main(args: Array<String>) {
         }
 
         val point = getMouseClickCoordinate(cb.x, cb.y)
-        if(point.x < 255 && point.y < 255){
+        if(point.x < 1000 && point.y < 1000){
 
             r.mouseMove(point.x, point.y)
 
