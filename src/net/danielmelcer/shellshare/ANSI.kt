@@ -137,7 +137,7 @@ class ANSIBiColor(val upper: Color, val lower: Color) : ANSI() {
     constructor(upper: Int, lower: Int): this(Color(upper), Color(lower))
 
     override fun toString(): String {
-        return ANSISetFG(upper).toString() + ANSISetBG(lower).toString() + "\u2580"
+        return ANSISetFG(lower).toString() + ANSISetBG(upper).toString() + "\u2580"
     }
 }
 
